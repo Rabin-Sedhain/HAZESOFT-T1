@@ -1,0 +1,14 @@
+FROM alpine:latest
+
+RUN apk update && \
+    apk add nginx git && \
+    rm -rf /var/cache/apk/* && \
+    mkdir -p /run/nginx
+
+RUN git clone https://github.com/veekrum/task /tmp/task && \
+    mv /tmp/task/site /usr/share/nginx/html && \
+    chown -R nginx:nginx /usr/share/nginx/html/site
+
+EXPOSE 9000
+
+CMD ["nginx", "-g", "daemon off;"]
